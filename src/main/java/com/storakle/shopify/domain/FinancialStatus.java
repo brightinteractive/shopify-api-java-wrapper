@@ -4,9 +4,9 @@ public enum FinancialStatus
 {
     authorized,
     pending,
-    partially_paid,
     paid,
-    partially_refunded,
+    partially_paid,
     refunded,
-    voided
+    voided,
+    partially_refunded,
 }

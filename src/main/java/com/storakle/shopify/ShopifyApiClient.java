@@ -4,8 +4,9 @@ import com.storakle.shopify.domain.*;
 import feign.Param;
 import feign.RequestLine;
 
-public interface ShopifyApiClient
-{
+import java.time.LocalDateTime;
+
+public interface ShopifyApiClient {
     int MAXIMUM_RETURNED_RESULTS = 250;
 
     @RequestLine("GET /admin/customers.json?limit={limit}&since_id={since-id}&page={page}&fields={fields}")
@@ -38,8 +39,36 @@ public interface ShopifyApiClient
     @RequestLine("GET /admin/collects/count.json")
     Count getCollectsCount();
 
-    @RequestLine("GET /admin/orders.json?limit={limit}&since_id={since-id}&page={page}&fields={fields}")
-    OrderList getOrders(@Param("limit") Integer limit, @Param("since-id") String sinceId, @Param("page") Integer page, @Param("fields") String fields);
+    @RequestLine("GET /admin/orders.json?" +
+            "ids={ids}" +
+            "&limit={limit}" +
+            "&page={page}" +
+            "&since_id={since-id}" +
+            "&created_at_min={created_at_min}" +
+            "&created_at_max={created_at_max}" +
+            "&updated_at_min={updated_at_min}" +
+            "&updated_at_max={updated_at_max}" +
+            "&processed_at_min={processed_at_min}" +
+            "&processed_at_max={processed_at_max}" +
+            "&status={status}" +
+            "&financial_status={financial_status}" +
+            "&fulfillment_status={fulfillment_status}" +
+            "&fields={fields}"
+    )
+    OrderList getOrders(@Param("ids") String ids,
+                        @Param("limit") Integer limit,
+                        @Param("page") Integer page,
+                        @Param("since-id") String sinceId,
+                        @Param("created_at_min") LocalDateTime createdAtMin,
+                        @Param("created_at_max") LocalDateTime createdAtMax,
+                        @Param("updated_at_min") LocalDateTime updatedAtMin,
+                        @Param("updated_at_max") LocalDateTime updatedAtMax,
+                        @Param("processed_at_min") LocalDateTime processedAtMin,
+                        @Param("processed_at_max") LocalDateTime processedAtMax,
+                        @Param("status") OrderStatus status,
+                        @Param("financial_status") FinancialStatus financialStatus,
+                        @Param("fulfillment_status") FufillmentStatus fufillmentStatus,
+                        @Param("fields") String fields);
 
     @RequestLine("GET /admin/orders/count.json")
     Count getOrdersCount();
