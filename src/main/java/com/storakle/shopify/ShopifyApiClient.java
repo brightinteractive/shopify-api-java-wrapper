@@ -70,8 +70,23 @@ public interface ShopifyApiClient {
                         @Param("fulfillment_status") FufillmentStatus fufillmentStatus,
                         @Param("fields") String fields);
 
-    @RequestLine("GET /admin/orders/count.json")
-    Count getOrdersCount();
+    @RequestLine("GET /admin/orders/count.json?" +
+            "created_at_min={created_at_min}" +
+            "&created_at_max={created_at_max}" +
+            "&updated_at_min={updated_at_min}" +
+            "&updated_at_max={updated_at_max}" +
+            "&status={status}" +
+            "&financial_status={financial_status}" +
+            "&fulfillment_status={fulfillment_status}"
+    )
+    Count getOrdersCount(@Param("created_at_min") LocalDateTime createdAtMin,
+                         @Param("created_at_max") LocalDateTime createdAtMax,
+                         @Param("updated_at_min") LocalDateTime updatedAtMin,
+                         @Param("updated_at_max") LocalDateTime updatedAtMax,
+                         @Param("status") OrderStatus status,
+                         @Param("financial_status") FinancialStatus financialStatus,
+                         @Param("fulfillment_status") FufillmentStatus fufillmentStatus);
+
 
     @RequestLine("GET /admin/webhooks.json?limit={limit}&since_id={since-id}&page={page}&fields={fields}")
     WebhookList getWebhooks(@Param("limit") Integer limit, @Param("since-id") String sinceId, @Param("page") Integer page, @Param("fields") String fields);
